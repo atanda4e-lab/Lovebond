@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+        content="Write, save, and keep your most heartfelt letters with LoveBond.">
+
+    <title>LoveBond | Love Letters</title>
+
+    <link rel="icon" href="images/lovebond-icon.png">
+
+    <style>
+        /* =========================
+           GENERAL STYLES
+        ========================= */
+
+        :root {
+            --primary: #e84370;
+            --primary-dark: #c92f5b;
+            --primary-light: #fff0f4;
+            --background: #fff9fb;
+            --white: #ffffff;
+            --text: #35232b;
+            --muted: #887780;
+            --border: #f0dfe6;
+            --shadow: 0 10px 35px rgba(120, 45, 75, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        button,
+        input,
+        textarea {
+            font: inherit;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        textarea:focus-visible {
+            outline: 3px solid #f5a5bd;
+            outline-offset: 3px;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        button:disabled {
+            cursor: not-allowed;
+            opacity: 0.65;
+        }
+
+        /* =========================
+           NAVIGATION
+        ========================= */
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+
+            padding: 17px 7%;
+
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            font-size: 23px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .logo-heart {
+            color: var(--primary);
+            font-size: 29px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 23px;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .login-link {
+            padding: 10px 19px;
+
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            border-radius: 25px;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .login-link:hover {
+            color: var(--white);
+            background: var(--primary);
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 35px;
+
+            padding: 65px 9%;
+
+            background:
+                radial-gradient(
+                    circle at 85% 20%,
+                    #ffe0e9,
+                    transparent 32%
+                ),
+                linear-gradient(
+                    120deg,
+                    #fff0f5,
+                    #fffafc
+                );
+        }
+
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            margin-bottom: 12px;
+
+            color: var(--primary);
+
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 5vw, 59px);
+            line-height: 1.15;
+            letter-spacing: -1.5px;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .hero p {
+            max-width: 480px;
+            margin: 20px 0 25px;
+
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        .hero-button {
+            display: inline-block;
+
+            padding: 14px 22px;
+
+            background: var(--primary);
+            color: var(--white);
+
+            border: none;
+            border-radius: 12px;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            box-shadow: 0 8px 20px rgba(232, 67, 112, 0.17);
+            transition: 0.2s;
+        }
+
+        .hero-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .hero-art {
+            width: 250px;
+            height: 250px;
+            flex-shrink: 0;
+
+            display: grid;
+            place-items: center;
+
+            position: relative;
+
+            border-radius: 50%;
+            background: #ffe4ec;
+        }
+
+        .hero-envelope {
+            width: 150px;
+            height: 110px;
+
+            display: grid;
+            place-items: center;
+
+            background: var(--white);
+            border-radius: 15px;
+
+            font-size: 72px;
+
+            box-shadow: var(--shadow);
+            transform: rotate(-7deg);
+        }
+
+        .floating-heart {
+            position: absolute;
+            color: var(--primary);
+            font-size: 28px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .heart-one {
+            top: 25px;
+            right: 35px;
+        }
+
+        .heart-two {
+            left: 20px;
+            bottom: 35px;
+            animation-delay: 1s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-9px);
+            }
+        }
+
+        /* =========================
+           MAIN LAYOUT
+        ========================= */
+
+        .container {
+            width: 86%;
+            max-width: 1150px;
+            margin: auto;
+            padding: 55px 0;
+        }
+
+        .section-heading {
+            margin-bottom: 25px;
+        }
+
+        .section-heading h2 {
+            margin-bottom: 7px;
+            font-size: 28px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* =========================
+           LETTER EDITOR
+        ========================= */
+
+        .letter-editor {
+            display: grid;
+            grid-template-columns: 1fr 0.8fr;
+            gap: 28px;
+            align-items: start;
+        }
+
+        .editor-card {
+            padding: 30px;
+
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+
+            box-shadow: var(--shadow);
+        }
+
+        .editor-card h3 {
+            margin-bottom: 5px;
+            font-size: 21px;
+        }
+
+        .editor-description {
+            margin-bottom: 23px;
+
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .form-group {
+            margin-bottom: 19px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 13px 14px;
+
+            background: #fffafb;
+
+            border: 1px solid var(--border);
+            border-radius: 10px;
+
+            color: var(--text);
+            font-size: 14px;
+
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .form-group textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #b5a5ad;
+        }
+
+        .editor-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .character-count {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .primary-button {
+            padding: 13px 20px;
+
+            background: var(--primary);
+            color: var(--white);
+
+            border: none;
+            border-radius: 10px;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            transition: background 0.2s;
+        }
+
+        .primary-button:hover:not(:disabled) {
+            background: var(--primary-dark);
+        }
+
+        .form-message {
+            margin-top: 15px;
+            font-size: 13px;
+        }
+
+        /* =========================
+           LETTER PREVIEW
+        ========================= */
+
+        .preview-card {
+            min-height: 440px;
+            padding: 30px;
+
+            background:
+                linear-gradient(
+                    rgba(255, 255, 255, 0.96),
+                    rgba(255, 255, 255, 0.96)
+                ),
+                repeating-linear-gradient(
+                    transparent,
+                    transparent 31px,
+                    #f3dfe7 32px
+                );
+
+            border: 1px solid var(--border);
+            border-radius: 20px;
+
+            box-shadow: var(--shadow);
+        }
+
+        .preview-label {
+            display: inline-block;
+
+            margin-bottom: 22px;
+            padding: 7px 12px;
+
+            color: var(--primary);
+            background: var(--primary-light);
+
+            border-radius: 20px;
+
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .preview-card h3 {
+            margin-bottom: 18px;
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 28px;
+            overflow-wrap: anywhere;
+        }
+
+        .preview-to {
+            margin-bottom: 18px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .preview-body {
+            min-height: 180px;
+
+            color: #68515b;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 15px;
+
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .preview-signature {
+            margin-top: 25px;
+
+            color: var(--primary);
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 18px;
+            font-style: italic;
+
+            overflow-wrap: anywhere;
+        }
+
+        /* =========================
+           SAVED LETTERS
+        ========================= */
+
+        .saved-section {
+            padding-top: 15px;
+        }
+
+        .saved-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+
+            margin-bottom: 25px;
+        }
+
+        .saved-header h2 {
+            font-size: 28px;
+        }
+
+        .saved-count {
+            padding: 7px 13px;
+
+            background: var(--primary-light);
+            color: var(--primary);
+
+            border-radius: 20px;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .saved-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .saved-letter {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+
+            min-width: 0;
+            padding: 23px;
+
+            background: var(--white);
+
+            border: 1px solid var(--border);
+            border-radius: 17px;
+
+            box-shadow: var(--shadow);
+        }
+
+        .saved-letter-icon {
+            width: 45px;
+            height: 45px;
+
+            display: grid;
+            place-items: center;
+
+            margin-bottom: 16px;
+
+            background: var(--primary-light);
+            border-radius: 13px;
+
+            font-size: 23px;
+        }
+
+        .saved-letter h3 {
+            width: 100%;
+            margin-bottom: 7px;
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 19px;
+
+            overflow-wrap: anywhere;
+        }
+
+        .saved-recipient {
+            margin-bottom: 12px;
+
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .saved-excerpt {
+            display: -webkit-box;
+
+            width: 100%;
+            margin-bottom: 18px;
+
+            overflow: hidden;
+            overflow-wrap: anywhere;
+
+            color: var(--muted);
+            font-size: 13px;
+
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+        }
+
+        .saved-date {
+            margin-top: auto;
+            margin-bottom: 15px;
+
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .saved-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+
+            width: 100%;
+        }
+
+        .small-button {
+            padding: 9px 13px;
+
+            border: 1px solid var(--border);
+            border-radius: 8px;
+
+            background: var(--white);
+            color: var(--text);
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .small-button:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .delete-button {
+            color: #c92f5b;
+        }
+
+        .empty-state {
+            padding: 45px 20px;
+
+            background: var(--white);
+            border: 1px dashed #e8c6d3;
+            border-radius: 17px;
+
+            text-align: center;
+        }
+
+        .empty-icon {
+            margin-bottom: 12px;
+            font-size: 42px;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 8px;
+            font-size: 20px;
+        }
+
+        .empty-state p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            padding: 40px 20px;
+
+            background: var(--white);
+            border-top: 1px solid var(--border);
+
+            text-align: center;
+        }
+
+        .footer .logo {
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .footer p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .footer .copyright {
+            margin-top: 12px;
+        }
+
+        /* =========================
+           TOAST NOTIFICATION
+        ========================= */
+
+        .toast {
+            position: fixed;
+            right: 22px;
+            bottom: 22px;
+            z-index: 200;
+
+            max-width: calc(100vw - 44px);
+            padding: 15px 20px;
+
+            color: var(--white);
+            background: #35232b;
+
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+
+            font-size: 13px;
+
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(12px);
+
+            transition: 0.25s;
+        }
+
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* =========================
+           RESPONSIVE DESIGN
+        ========================= */
+
+        @media (max-width: 1000px) {
+
+            .navbar {
+                flex-wrap: wrap;
+                padding: 16px 5%;
+            }
+
+            .nav-links {
+                order: 3;
+                width: 100%;
+
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 16px;
+            }
+
+            .hero {
+                padding: 55px 6%;
+            }
+
+            .hero-art {
+                width: 210px;
+                height: 210px;
+            }
+
+            .hero-envelope {
+                width: 125px;
+                height: 95px;
+                font-size: 60px;
+            }
+
+            .container {
+                width: 90%;
+            }
+
+            .letter-editor {
+                grid-template-columns: 1fr;
+            }
+
+            .preview-card {
+                min-height: 350px;
+            }
+
+            .saved-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                gap: 12px;
+                padding: 13px 5%;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .login-link {
+                padding: 8px 13px;
+            }
+
+            .nav-links {
+                justify-content: flex-start;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding: 5px 0;
+            }
+
+            .nav-links a {
+                flex-shrink: 0;
+            }
+
+            .hero {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 43px 6%;
+            }
+
+            .hero h1 {
+                font-size: 41px;
+            }
+
+            .hero p {
+                font-size: 14px;
+            }
+
+            .hero-art {
+                width: 185px;
+                height: 185px;
+                align-self: center;
+            }
+
+            .hero-envelope {
+                width: 110px;
+                height: 85px;
+                font-size: 53px;
+            }
+
+            .container {
+                width: 90%;
+                padding: 40px 0;
+            }
+
+            .section-heading h2,
+            .saved-header h2 {
+                font-size: 24px;
+            }
+
+            .editor-card,
+            .preview-card {
+                padding: 22px;
+            }
+
+            .form-group textarea {
+                min-height: 180px;
+            }
+
+            .editor-footer {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .editor-footer .primary-button {
+                width: 100%;
+            }
+
+            .preview-card h3 {
+                font-size: 24px;
+            }
+
+            .saved-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .saved-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .toast {
+                right: 12px;
+                bottom: 12px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+
+    <script type="module" src="letters.js"></script>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+
+    <header class="navbar">
+
+        <a href="index.html" class="logo">
+            <span class="logo-heart">♥</span>
+            <span>LoveBond</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="discover.html">Discover</a>
+            <a href="messages.html">Messages</a>
+            <a href="memories.html">Memories</a>
+            <a href="letters.html" class="active">Letters</a>
+        </nav>
+
+        <a href="login.html" class="login-link">Login</a>
+
+    </header>
+
+
+    <!-- Hero -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <span class="eyebrow">WORDS FROM THE HEART</span>
+
+            <h1>
+                Letters That<br>
+                <span>Speak of Love.</span>
+            </h1>
+
+            <p>
+                Some feelings deserve more than a quick message.
+                Write your thoughts, express your love, and keep
+                the words that mean the most to you.
+            </p>
+
+            <a href="#write-letter" class="hero-button">
+                Write a Love Letter ♥
+            </a>
+
+        </div>
+
+        <div class="hero-art" aria-hidden="true">
+
+            <div class="hero-envelope">💌</div>
+
+            <span class="floating-heart heart-one">♥</span>
+            <span class="floating-heart heart-two">♡</span>
+
+        </div>
+
+    </section>
+
+
+    <main class="container">
+
+        <!-- Letter Editor -->
+
+        <section id="write-letter">
+
+            <div class="section-heading">
+
+                <span class="eyebrow">YOUR WORDS, YOUR STORY</span>
+
+                <h2>Write a Love Letter</h2>
+
+                <p>
+                    Take a moment to put your feelings into words.
+                    Your letters are saved privately to your account.
+                </p>
+
+            </div>
+
+
+            <div class="letter-editor">
+
+                <div class="editor-card">
+
+                    <h3>Dear Someone Special... 💗</h3>
+
+                    <p class="editor-description">
+                        Write something meaningful. It does not
+                        have to be perfect; it just has to be yours.
+                    </p>
+
+                    <form id="letter-form">
+
+                        <div class="form-group">
+
+                            <label for="letter-title">
+                                Letter Title
+                            </label>
+
+                            <input
+                                type="text"
+                                id="letter-title"
+                                maxlength="100"
+                                placeholder="e.g. A Letter From My Heart"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="letter-recipient">
+                                Recipient's Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="letter-recipient"
+                                maxlength="100"
+                                placeholder="Who is this letter for?"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="letter-body">
+                                Your Letter
+                            </label>
+
+                            <textarea
+                                id="letter-body"
+                                maxlength="10000"
+                                placeholder="My dearest, there is something I have been wanting to tell you..."
+                                required
+                            ></textarea>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="letter-signature">
+                                Sign Your Letter
+                            </label>
+
+                            <input
+                                type="text"
+                                id="letter-signature"
+                                maxlength="100"
+                                placeholder="With love..."
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="editor-footer">
+
+                            <span
+                                class="character-count"
+                                id="character-count"
+                            >
+                                0 / 10000 characters
+                            </span>
+
+                            <button
+                                type="submit"
+                                class="primary-button"
+                                id="save-letter"
+                            >
+                                Save My Letter ♥
+                            </button>
+
+                        </div>
+
+                        <p
+                            class="form-message"
+                            id="form-message"
+                            aria-live="polite"
+                        ></p>
+
+                    </form>
+
+                </div>
+
+
+                <!-- Live Preview -->
+
+                <article class="preview-card">
+
+                    <span class="preview-label">
+                        LETTER PREVIEW
+                    </span>
+
+                    <h3 id="preview-title">
+                        A Letter From My Heart
+                    </h3>
+
+                    <p class="preview-to" id="preview-recipient">
+                        Dear Someone Special,
+                    </p>
+
+                    <div class="preview-body" id="preview-body">Your words will appear here as you write your letter.
+
+Every word can become a memory worth keeping.</div>
+
+                    <p
+                        class="preview-signature"
+                        id="preview-signature"
+                    >
+                        With love, ♥
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- Saved Letters -->
+
+        <section class="saved-section" id="saved-letters">
+
+            <div class="saved-header">
+
+                <div>
+
+                    <span class="eyebrow">YOUR PERSONAL COLLECTION</span>
+
+                    <h2>My Saved Letters</h2>
+
+                </div>
+
+                <span class="saved-count" id="saved-count">
+                    0 letters
+                </span>
+
+            </div>
+
+
+            <div
+                class="saved-grid"
+                id="saved-grid"
+            ></div>
+
+
+            <div
+                class="empty-state"
+                id="empty-state"
+            >
+
+                <div class="empty-icon">💌</div>
+
+                <h3>Your story starts here</h3>
+
+                <p>
+                    You haven't saved any letters yet.
+                    Write your first letter and it will appear here.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+
+    <footer class="footer">
+
+        <a href="index.html" class="logo">
+            <span class="logo-heart">♥</span>
+            <span>LoveBond</span>
+        </a>
+
+        <p>Some words are too special to be forgotten. ♥</p>
+
+        <p class="copyright">
+            &copy; <span id="current-year"></span> LoveBond.
+            Made with love.
+        </p>
+
+    </footer>
+
+
+    <!-- Notification -->
+
+    <div
+        class="toast"
+        id="toast"
+        role="status"
+        aria-live="polite"
+    ></div>
+
+</body>
+
+</html>

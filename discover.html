@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Discover people, explore interests, and find meaningful connections on LoveBond."
+    >
+
+    <title>Discover | LoveBond</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        :root {
+            --love-primary: #8b3dff;
+            --love-secondary: #ff4f93;
+            --love-dark: #241b35;
+            --love-muted: #81778e;
+            --love-background: #faf7ff;
+            --love-border: #eee5f8;
+            --love-white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            color: var(--love-dark);
+            background: var(--love-background);
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .lb-navbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: var(--love-white);
+            border-bottom: 1px solid var(--love-border);
+        }
+
+        .lb-nav-inner {
+            width: min(1150px, 92%);
+            margin: auto;
+            min-height: 76px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .lb-logo {
+            color: var(--love-primary);
+            font-size: 25px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .lb-logo span {
+            margin-left: 5px;
+        }
+
+        .lb-nav-links {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .lb-nav-links a,
+        .lb-logout {
+            padding: 10px 12px;
+            border-radius: 10px;
+            color: var(--love-dark);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .lb-nav-links a:hover,
+        .lb-nav-links a.active {
+            color: var(--love-primary);
+            background: #f2eaff;
+        }
+
+        .lb-logout {
+            cursor: pointer;
+            border: 0;
+            background: #ffe8f1;
+            color: #c52968;
+        }
+
+        .lb-main {
+            width: min(1150px, 92%);
+            margin: 0 auto;
+            padding: 55px 0 80px;
+        }
+
+        .lb-hero {
+            padding: 38px 30px;
+            margin-bottom: 32px;
+            border-radius: 25px;
+            background: linear-gradient(125deg, #eee4ff, #ffe7f1);
+        }
+
+        .lb-eyebrow {
+            margin: 0 0 12px;
+            color: var(--love-primary);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .lb-hero h1 {
+            margin: 0 0 14px;
+            font-size: clamp(30px, 5vw, 45px);
+            line-height: 1.15;
+        }
+
+        .lb-hero p {
+            max-width: 650px;
+            margin: 0;
+            color: #65596f;
+            line-height: 1.8;
+        }
+
+        .lb-welcome {
+            margin-bottom: 28px;
+            padding: 20px 22px;
+            border: 1px solid var(--love-border);
+            border-radius: 16px;
+            background: var(--love-white);
+        }
+
+        .lb-welcome h2 {
+            margin: 0 0 8px;
+            font-size: 20px;
+        }
+
+        .lb-welcome p {
+            margin: 0;
+            color: var(--love-muted);
+        }
+
+        .lb-controls {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 230px;
+            gap: 16px;
+            margin-bottom: 38px;
+        }
+
+        .lb-field label {
+            display: block;
+            margin-bottom: 9px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .lb-field input,
+        .lb-field select {
+            width: 100%;
+            min-height: 48px;
+            padding: 12px 14px;
+            border: 1px solid #e5d9f1;
+            border-radius: 12px;
+            outline: none;
+            background: var(--love-white);
+            color: var(--love-dark);
+            font: inherit;
+            font-size: 14px;
+        }
+
+        .lb-field input:focus,
+        .lb-field select:focus {
+            border-color: var(--love-primary);
+            box-shadow: 0 0 0 3px #8b3dff19;
+        }
+
+        .lb-section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .lb-section-heading h2 {
+            margin: 0 0 8px;
+            font-size: 25px;
+        }
+
+        .lb-section-heading p {
+            margin: 0;
+            color: var(--love-muted);
+            line-height: 1.6;
+        }
+
+        .lb-profiles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 23px;
+        }
+
+        .profile-card {
+            overflow: hidden;
+            border: 1px solid var(--love-border);
+            border-radius: 20px;
+            background: var(--love-white);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 35px #40205b12;
+        }
+
+        .profile-image {
+            height: 240px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #e8d9ff, #ffe0eb);
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        .profile-placeholder {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            place-items: center;
+            font-size: 55px;
+        }
+
+        .profile-info {
+            padding: 20px;
+        }
+
+        .profile-info h3 {
+            margin: 0 0 10px;
+            font-size: 21px;
+            overflow-wrap: anywhere;
+        }
+
+        .profile-location {
+            margin: 0 0 12px;
+            color: var(--love-muted);
+            font-size: 13px;
+        }
+
+        .profile-bio {
+            min-height: 42px;
+            margin: 0 0 15px;
+            color: #5e536a;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+        }
+
+        .profile-interests {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-bottom: 18px;
+        }
+
+        .interest-tag {
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: #f2eaff;
+            color: #7431ce;
+            font-size: 12px;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .like-button,
+        .message-button {
+            min-height: 43px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            padding: 10px;
+            border: 0;
+            border-radius: 11px;
+            cursor: pointer;
+            font: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .like-button {
+            background: linear-gradient(
+                120deg,
+                var(--love-primary),
+                var(--love-secondary)
+            );
+            color: white;
+        }
+
+        .like-button.liked {
+            background: #ffe6f0;
+            color: #c52968;
+        }
+
+        .like-button:disabled {
+            cursor: wait;
+            opacity: 0.65;
+        }
+
+        .message-button {
+            background: #f2eaff;
+            color: var(--love-primary);
+        }
+
+        .lb-status {
+            grid-column: 1 / -1;
+            padding: 35px 20px;
+            border: 1px dashed #dac9ec;
+            border-radius: 17px;
+            background: white;
+            color: var(--love-muted);
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        .lb-footer {
+            padding: 25px 4%;
+            background: white;
+            border-top: 1px solid var(--love-border);
+            color: var(--love-muted);
+            font-size: 13px;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        @media (max-width: 850px) {
+            .lb-profiles-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .lb-nav-inner {
+                padding: 14px 0;
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .lb-nav-links {
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .lb-main {
+                padding-top: 28px;
+            }
+
+            .lb-hero {
+                padding: 28px 21px;
+            }
+
+            .lb-controls {
+                grid-template-columns: 1fr;
+            }
+
+            .lb-profiles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-image {
+                height: 280px;
+            }
+
+            .lb-section-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .lb-nav-links a,
+            .lb-logout {
+                padding: 9px;
+                font-size: 13px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .profile-card {
+                transition: none;
+            }
+        }
+        ```css
+/* =====================================
+   MAIN NAVIGATION
+===================================== */
+
+.topbar {
+    gap: 20px;
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 11px 13px;
+
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+
+    border: 1px solid transparent;
+    border-radius: 12px;
+
+    transition: 0.2s ease;
+}
+
+.nav-link:hover {
+    background: var(--panel-light);
+    color: var(--text);
+}
+
+.nav-link.active {
+    background: var(--primary-soft);
+    border-color: #66345e;
+    color: #ff9fc3;
+}
+
+.logout-button {
+    flex-shrink: 0;
+
+    padding: 11px 15px;
+
+    background: #47223e;
+    border: 1px solid #783653;
+    border-radius: 12px;
+
+    color: #ff9fc3;
+    font-size: 12px;
+    font-weight: 700;
+
+    transition: 0.2s ease;
+}
+
+.logout-button:hover {
+    background: #67304c;
+    color: #ffffff;
+}
+
+@media (max-width: 1000px) {
+    .topbar {
+        height: auto;
+        min-height: 76px;
+        padding: 12px 3%;
+        flex-wrap: wrap;
+    }
+
+    .main-nav {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 600px) {
+    .topbar {
+        gap: 10px;
+    }
+
+    .brand {
+        font-size: 19px;
+    }
+
+    .main-nav {
+        gap: 4px;
+    }
+
+    .nav-link {
+        padding: 9px 10px;
+        font-size: 11px;
+    }
+
+    .logout-button {
+        padding: 9px 11px;
+        font-size: 11px;
+    }
+}
+    </style>
+</head>
+
+<body>
+
+    <header class="lb-navbar">
+        <div class="lb-nav-inner">
+
+            <a href="index.html" class="lb-logo">
+                LoveBond <span>❤️</span>
+            </a>
+
+            <nav class="lb-nav-links" aria-label="Main navigation">
+                <a href="index.html">Home</a>
+                <a href="discover.html" class="active">Discover</a>
+                <a href="matches.html">Matches</a>
+                <a href="messages.html">Messages</a>
+                <a href="profile.html" class="profile-link">My Profile</a>
+                <a href="login.html" class="login-link">Login</a>
+                <a href="register.html" class="join-link">Join Now</a>
+                <a href="letters.html">letter</a>
+
+                <button
+                    type="button"
+                    class="lb-logout logout-button"
+                    hidden
+                >
+                    Logout
+                </button>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <main class="lb-main">
+
+        <section class="lb-hero">
+            <p class="lb-eyebrow">FIND YOUR CONNECTION</p>
+
+            <h1>Discover People ❤️</h1>
+
+            <p>
+                Meet new people, explore their interests, and discover
+                meaningful connections. Your next connection could start here.
+            </p>
+        </section>
+
+
+        <section
+            id="welcomePanel"
+            class="lb-welcome"
+            hidden
+        >
+            <h2>
+                Welcome back, <span class="user-name">Member</span>!
+            </h2>
+
+            <p>Explore profiles and discover people you connect with.</p>
+        </section>
+
+
+        <section aria-label="Search and filter members">
+
+            <div class="lb-controls">
+
+                <div class="lb-field">
+                    <label for="searchInput">Search members</label>
+
+                    <input
+                        type="search"
+                        id="searchInput"
+                        placeholder="Name, location, or interests..."
+                    >
+                </div>
+
+                <div class="lb-field">
+                    <label for="filterSelect">Filter profiles</label>
+
+                    <select id="filterSelect">
+                        <option value="everyone">Everyone</option>
+                        <option value="new">New Members</option>
+                        <option value="liked">Liked by Me</option>
+                    </select>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section aria-labelledby="profilesHeading">
+
+            <div class="lb-section-heading">
+                <div>
+                    <h2 id="profilesHeading">People You May Like</h2>
+
+                    <p>
+                        Discover members who share your interests.
+                    </p>
+                </div>
+            </div>
+
+            <div
+                id="profilesGrid"
+                class="lb-profiles-grid"
+                aria-live="polite"
+            >
+                <p class="lb-status">Loading members...</p>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer class="lb-footer">
+        <p>
+            &copy; 2026 LoveBond. Connecting people, one connection at a time. ❤️
+        </p>
+    </footer>
+
+
+    <script type="module" src="script.js"></script>
+    <script type="module" src="discover.js"></script>
+
+</body>
+</html>

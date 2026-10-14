@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Manage your LoveBond member profile.">
+
+    <title>My Profile | LoveBond</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff5f7;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+
+        header {
+            background: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            color: #e63968;
+            font-size: 27px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #555;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: #e63968;
+        }
+
+        /* MAIN CONTAINER */
+
+        .container {
+            width: 92%;
+            max-width: 900px;
+            margin: 35px auto;
+        }
+
+        .page-heading {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .page-heading h1 {
+            color: #e63968;
+            margin-bottom: 10px;
+        }
+
+        .page-heading p {
+            color: #777;
+            line-height: 1.6;
+        }
+
+        /* PROFILE CARD */
+
+        .profile-card {
+            background: white;
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .profile-top {
+            text-align: center;
+            padding-bottom: 25px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-picture {
+            width: 125px;
+            height: 125px;
+            border-radius: 50%;
+            border: 4px solid #ffe0e9;
+            object-fit: cover;
+            background: #ffe0e9;
+            display: block;
+            margin: 0 auto 15px;
+        }
+
+        .profile-top h2 {
+            color: #e63968;
+            margin-bottom: 7px;
+            overflow-wrap: anywhere;
+        }
+
+        .profile-top p {
+            color: #777;
+            overflow-wrap: anywhere;
+        }
+
+        .section-title {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* FORM */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            min-width: 0;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 9px;
+            font-size: 15px;
+            font-family: inherit;
+            outline: none;
+            background: white;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #e63968;
+            box-shadow: 0 0 0 3px rgba(230, 57, 104, 0.08);
+        }
+
+        input:disabled {
+            background: #f5f5f5;
+            color: #777;
+            cursor: not-allowed;
+        }
+
+        textarea {
+            min-height: 115px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .help-text {
+            display: block;
+            color: #888;
+            font-size: 12px;
+            margin-top: 7px;
+            line-height: 1.5;
+        }
+
+        /* BUTTONS */
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 13px 20px;
+            border-radius: 9px;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #e63968;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            background: #c92350;
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #ffe5ec;
+            color: #e63968;
+        }
+
+        .btn-secondary:hover {
+            background: #ffd3df;
+        }
+
+        /* STATUS MESSAGE */
+
+        #profileMessage {
+            display: none;
+            padding: 13px;
+            border-radius: 9px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        #profileMessage.success {
+            display: block;
+            background: #e4f8ec;
+            color: #176c39;
+        }
+
+        #profileMessage.error {
+            display: block;
+            background: #ffe7eb;
+            color: #a71930;
+        }
+
+        #profileMessage.info {
+            display: block;
+            background: #fff3d5;
+            color: #805800;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 25px 15px;
+            color: #888;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 18px 5%;
+                flex-direction: column;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container {
+                margin-top: 25px;
+            }
+
+            .profile-card {
+                padding: 22px 17px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header>
+        <a href="index.html" class="logo">LoveBond ❤️</a>
+
+        <nav>
+            <a href="discover.html">Discover</a>
+            <a href="profile.html">My Profile</a>
+
+            <a
+                href="#"
+                id="logoutButton"
+                style="color: #e63968;">
+                Log Out
+            </a>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+
+    <main class="container">
+
+        <div class="page-heading">
+            <h1>My Profile 💖</h1>
+
+            <p>
+                Tell other members a little about yourself.
+                Let your personality shine!
+            </p>
+        </div>
+
+        <section class="profile-card">
+
+            <!-- PROFILE PREVIEW -->
+
+            <div class="profile-top">
+
+                <img
+                    id="profilePicture"
+                    class="profile-picture"
+                    src="https://placehold.co/125x125/ffe0e9/e63968?text=Love"
+                    alt="Your profile picture">
+
+                <h2 id="previewName">Your Name</h2>
+
+                <p id="previewLocation">
+                    Add your location
+                </p>
+
+            </div>
+
+            <div
+                id="profileMessage"
+                role="status"
+                aria-live="polite">
+            </div>
+
+            <h2 class="section-title">
+                Personal Information
+            </h2>
+
+            <form id="profileForm">
+
+                <div class="form-grid">
+
+                    <!-- FULL NAME -->
+
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+
+                        <input
+                            type="text"
+                            id="fullName"
+                            name="fullName"
+                            maxlength="80"
+                            placeholder="Enter your full name"
+                            autocomplete="name"
+                            required>
+                    </div>
+
+                    <!-- EMAIL -->
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            disabled>
+
+                        <small class="help-text">
+                            Your registered email cannot be changed here.
+                        </small>
+                    </div>
+
+                    <!-- AGE -->
+
+                    <div class="form-group">
+                        <label for="age">Age</label>
+
+                        <input
+                            type="number"
+                            id="age"
+                            name="age"
+                            min="18"
+                            max="120"
+                            placeholder="You must be 18 or older"
+                            required>
+                    </div>
+
+                    <!-- LOCATION -->
+
+                    <div class="form-group">
+                        <label for="location">Location</label>
+
+                        <input
+                            type="text"
+                            id="location"
+                            name="location"
+                            maxlength="100"
+                            placeholder="e.g. Ilorin, Nigeria">
+                    </div>
+
+                    <!-- PROFILE PICTURE URL -->
+
+                    <div class="form-group full-width">
+                        <label for="photoURL">
+                            Profile Picture URL
+                        </label>
+
+                        <input
+                            type="url"
+                            id="photoURL"
+                            name="photoURL"
+                            placeholder="https://example.com/your-picture.jpg">
+
+                        <small class="help-text">
+                            Paste a direct link to an image you are allowed
+                            to use. Image uploads will require additional setup.
+                        </small>
+                    </div>
+
+                    <!-- BIO -->
+
+                    <div class="form-group full-width">
+                        <label for="bio">About Me</label>
+
+                        <textarea
+                            id="bio"
+                            name="bio"
+                            maxlength="500"
+                            placeholder="Tell members about your personality, hobbies and what makes you unique..."></textarea>
+                    </div>
+
+                    <!-- INTERESTS -->
+
+                    <div class="form-group full-width">
+                        <label for="interests">My Interests</label>
+
+                        <input
+                            type="text"
+                            id="interests"
+                            name="interests"
+                            maxlength="250"
+                            placeholder="e.g. Music, movies, travelling, reading">
+
+                        <small class="help-text">
+                            Separate your interests with commas.
+                        </small>
+                    </div>
+
+                </div>
+
+                <!-- BUTTONS -->
+
+                <div class="button-row">
+
+                    <button
+                        type="submit"
+                        id="saveProfileButton"
+                        class="btn btn-primary">
+                        Save My Profile ❤️
+                    </button>
+
+                    <a
+                        href="discover.html"
+                        class="btn btn-secondary">
+                        Back to Discover
+                    </a>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+    <footer>
+        &copy; 2026 LoveBond. Made with ❤️ for meaningful connections.
+    </footer>
+
+    <script type="module" src="profile.js"></script>
+
+</body>
+
+</html>

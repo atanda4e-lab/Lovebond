@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Connect and chat with people on LoveBond."
+    >
+
+    <title>Messages | LoveBond</title>
+
+    <style>
+        :root {
+            --background: #100b18;
+            --panel: #1b1326;
+            --panel-light: #281b36;
+            --border: #392642;
+            --primary: #e84d91;
+            --primary-light: #ff9fc5;
+            --text: #fff4fa;
+            --muted: #b6a7bd;
+            --success: #8de4ae;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--background);
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* =========================
+           NAVIGATION
+        ========================= */
+
+        .topbar {
+            min-height: 76px;
+            padding: 14px 4%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            background: var(--panel);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 23px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .brand-icon {
+            color: var(--primary);
+            font-size: 29px;
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .nav-link {
+            padding: 11px 12px;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--panel-light);
+            color: white;
+        }
+
+        .nav-link.active {
+            background: #392039;
+            border-color: #673451;
+            color: var(--primary-light);
+        }
+
+        .logout-button {
+            padding: 11px 15px;
+            background: #3a1c30;
+            border: 1px solid #74334f;
+            border-radius: 10px;
+            color: var(--primary-light);
+            font-size: 13px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .logout-button:hover {
+            background: #67304c;
+            color: white;
+        }
+
+        .logout-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* =========================
+           PAGE HEADING
+        ========================= */
+
+        .page-container {
+            width: min(1250px, 94%);
+            margin: 30px auto;
+        }
+
+        .page-heading {
+            margin-bottom: 22px;
+        }
+
+        .page-heading h1 {
+            margin-bottom: 8px;
+            font-size: 30px;
+        }
+
+        .page-heading p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           STATUS MESSAGE
+        ========================= */
+
+        .page-status {
+            display: none;
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .page-status.visible {
+            display: block;
+        }
+
+        /* =========================
+           MAIN MESSAGES LAYOUT
+        ========================= */
+
+        .messages-layout {
+            display: grid;
+            grid-template-columns: 330px minmax(0, 1fr);
+            gap: 20px;
+            height: 650px;
+            min-height: 450px;
+        }
+
+        .panel {
+            min-width: 0;
+            overflow: hidden;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+        }
+
+        /* =========================
+           USER SIDEBAR
+        ========================= */
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-header h2 {
+            margin-bottom: 15px;
+            font-size: 19px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 14px;
+            outline: none;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            color: var(--text);
+        }
+
+        .search-box:focus {
+            border-color: var(--primary);
+        }
+
+        .search-box::placeholder {
+            color: #887b91;
+        }
+
+        .contacts-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .contact-item {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 18px;
+            text-align: left;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+            transition: 0.2s ease;
+        }
+
+        .contact-item:hover {
+            background: var(--panel-light);
+        }
+
+        .contact-item.active {
+            background: #352038;
+            border-left: 3px solid var(--primary);
+        }
+
+        .contact-avatar {
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #38223e;
+            border-radius: 50%;
+            font-size: 22px;
+        }
+
+        .contact-avatar img,
+        .chat-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .contact-info {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .contact-name {
+            margin-bottom: 6px;
+            overflow-wrap: anywhere;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .contact-preview {
+            overflow: hidden;
+            color: var(--muted);
+            font-size: 12px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .empty-contacts {
+            padding: 25px 20px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* =========================
+           CHAT PANEL
+        ========================= */
+
+        .chat-panel {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            min-height: 82px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .back-button {
+            display: none;
+            padding: 9px 11px;
+            background: var(--panel-light);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            color: var(--text);
+        }
+
+        .chat-avatar {
+            width: 45px;
+            height: 45px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #38223e;
+            border-radius: 50%;
+            font-size: 22px;
+        }
+
+        .chat-user-info {
+            min-width: 0;
+        }
+
+        .chat-user-info h2 {
+            margin-bottom: 5px;
+            overflow-wrap: anywhere;
+            font-size: 16px;
+        }
+
+        .chat-user-info p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .chat-status {
+            margin-left: auto;
+            color: var(--success);
+            font-size: 12px;
+        }
+
+        /* =========================
+           MESSAGE DISPLAY
+        ========================= */
+
+        .chat-messages {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 22px;
+            overflow-y: auto;
+        }
+
+        .chat-placeholder {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .placeholder-content {
+            max-width: 300px;
+        }
+
+        .placeholder-icon {
+            margin-bottom: 14px;
+            font-size: 42px;
+        }
+
+        .placeholder-content h3 {
+            margin-bottom: 9px;
+            color: var(--text);
+            font-size: 19px;
+        }
+
+        .placeholder-content p {
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .message-bubble {
+            max-width: 75%;
+            padding: 12px 15px;
+            border-radius: 16px;
+            overflow-wrap: anywhere;
+            line-height: 1.6;
+            font-size: 14px;
+            white-space: pre-wrap;
+        }
+
+        .message-bubble.sent {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #e84d91, #b93e9d);
+            border-bottom-right-radius: 5px;
+            color: white;
+        }
+
+        .message-bubble.received {
+            align-self: flex-start;
+            background: #30213d;
+            border: 1px solid var(--border);
+            border-bottom-left-radius: 5px;
+            color: var(--text);
+        }
+
+        .message-time {
+            display: block;
+            margin-top: 5px;
+            text-align: right;
+            opacity: 0.75;
+            font-size: 10px;
+        }
+
+        /* =========================
+           MESSAGE INPUT
+        ========================= */
+
+        .message-form {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .message-input {
+            flex: 1;
+            min-width: 0;
+            padding: 14px 16px;
+            outline: none;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            color: var(--text);
+        }
+
+        .message-input:focus {
+            border-color: var(--primary);
+        }
+
+        .message-input::placeholder {
+            color: #887b91;
+        }
+
+        .send-button {
+            padding: 14px 19px;
+            background: var(--primary);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            transition: 0.2s ease;
+        }
+
+        .send-button:hover {
+            background: #cf347b;
+        }
+
+        .send-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* =========================
+           RESPONSIVE DESIGN
+        ========================= */
+
+        @media (max-width: 1050px) {
+            .topbar {
+                flex-wrap: wrap;
+            }
+
+            .main-nav {
+                order: 3;
+                width: 100%;
+                flex-wrap: wrap;
+                justify-content: flex-start;
+            }
+
+            .messages-layout {
+                grid-template-columns: 290px minmax(0, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+            .topbar {
+                gap: 12px;
+                padding: 14px 4%;
+            }
+
+            .brand {
+                font-size: 20px;
+            }
+
+            .logout-button {
+                padding: 9px 11px;
+            }
+
+            .nav-link {
+                padding: 9px 10px;
+                font-size: 11px;
+            }
+
+            .page-container {
+                margin: 22px auto;
+            }
+
+            .page-heading h1 {
+                font-size: 25px;
+            }
+
+            .messages-layout {
+                display: block;
+                height: 68vh;
+                min-height: 430px;
+                max-height: 700px;
+            }
+
+            .sidebar,
+            .chat-panel {
+                width: 100%;
+                height: 100%;
+            }
+
+            .chat-panel {
+                display: none;
+            }
+
+            .messages-layout.chat-open .sidebar {
+                display: none;
+            }
+
+            .messages-layout.chat-open .chat-panel {
+                display: flex;
+            }
+
+            .back-button {
+                display: inline-block;
+            }
+
+            .chat-header {
+                padding: 12px;
+            }
+
+            .chat-messages {
+                padding: 15px;
+            }
+
+            .message-form {
+                padding: 11px;
+            }
+
+            .send-button {
+                padding: 13px 15px;
+            }
+
+            .message-bubble {
+                max-width: 85%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP NAVIGATION -->
+    <header class="topbar">
+
+        <a href="index.html" class="brand">
+            <span class="brand-icon">💗</span>
+            <span>LoveBond</span>
+        </a>
+
+        <nav class="main-nav" aria-label="Main navigation">
+
+            <a href="index.html" class="nav-link">
+                🏠 Home
+            </a>
+
+            <a href="discover.html" class="nav-link">
+                💕 Discover
+            </a>
+
+            <a href="matches.html" class="nav-link">
+                ❤️ Matches
+            </a>
+
+            <a href="messages.html" class="nav-link active">
+                💬 Messages
+            </a>
+
+            <a href="profile.html" class="nav-link">
+                👤 Profile
+            </a>
+              <a href="letters.html" class="nav-link">
+                🏠 letter
+            </a>
+
+        </nav>
+
+        <button
+            type="button"
+            id="logoutButton"
+            class="logout-button"
+        >
+            ↪ Logout
+        </button>
+
+    </header>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="page-container">
+
+        <section class="page-heading">
+
+            <h1>Your Messages 💌</h1>
+
+            <p>
+                Find a user, select their name, and exchange messages.
+            </p>
+
+        </section>
+
+
+        <div
+            id="pageStatus"
+            class="page-status"
+            role="status"
+            aria-live="polite"
+        ></div>
+
+
+        <section class="messages-layout" id="messagesLayout">
+
+            <!-- USER LIST -->
+            <aside class="panel sidebar">
+
+                <div class="sidebar-header">
+
+                    <h2>Choose a User</h2>
+
+                    <input
+                        type="search"
+                        id="contactSearch"
+                        class="search-box"
+                        placeholder="Search users..."
+                        aria-label="Search users"
+                    >
+
+                </div>
+
+                <div id="contactsList" class="contacts-list">
+
+                    <div class="empty-contacts">
+                        Loading users...
+                    </div>
+
+                </div>
+
+            </aside>
+
+
+            <!-- CHAT WINDOW -->
+            <section class="panel chat-panel">
+
+                <header class="chat-header">
+
+                    <button
+                        type="button"
+                        id="backToContacts"
+                        class="back-button"
+                    >
+                        ← Back
+                    </button>
+
+                    <div class="chat-avatar" id="chatAvatar">
+                        💗
+                    </div>
+
+                    <div class="chat-user-info">
+
+                        <h2 id="chatName">Select a user</h2>
+
+                        <p id="chatSubtitle">
+                            Select someone from the user list.
+                        </p>
+
+                    </div>
+
+                    <div class="chat-status" id="chatStatus">
+                        LoveBond
+                    </div>
+
+                </header>
+
+
+                <!-- MESSAGE HISTORY -->
+                <div
+                    id="chatMessages"
+                    class="chat-messages"
+                    aria-live="polite"
+                >
+
+                    <div id="chatPlaceholder" class="chat-placeholder">
+
+                        <div class="placeholder-content">
+
+                            <div class="placeholder-icon">💬</div>
+
+                            <h3>Select a user</h3>
+
+                            <p>
+                                Choose a name from the user list to view
+                                the messages exchanged with that person.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MESSAGE FORM -->
+                <form id="messageForm" class="message-form">
+
+                    <input
+                        type="text"
+                        id="messageInput"
+                        class="message-input"
+                        placeholder="Write a message..."
+                        autocomplete="off"
+                        maxlength="2000"
+                        aria-label="Write a message"
+                    >
+
+                    <button
+                        type="submit"
+                        id="sendButton"
+                        class="send-button"
+                        disabled
+                    >
+                        Send ➤
+                    </button>
+
+                </form>
+
+            </section>
+
+        </section>
+
+    </main>
+
+
+    <!-- MOBILE USER LIST NAVIGATION -->
+    <script>
+        const messagesLayout =
+            document.getElementById("messagesLayout");
+
+        const contactsList =
+            document.getElementById("contactsList");
+
+        const backToContacts =
+            document.getElementById("backToContacts");
+
+        contactsList.addEventListener("click", function (event) {
+
+            const contact = event.target.closest(".contact-item");
+
+            if (contact && window.innerWidth <= 700) {
+                messagesLayout.classList.add("chat-open");
+            }
+
+        });
+
+        backToContacts.addEventListener("click", function () {
+
+            messagesLayout.classList.remove("chat-open");
+
+        });
+    </script>
+
+
+    <!-- FIREBASE MESSAGING -->
+    <script type="module" src="messages.js"></script>
+
+</body>
+
+</html>

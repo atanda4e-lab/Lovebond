@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Log in to LoveBond and continue your journey to meaningful connections.">
+
+    <title>Login | LoveBond</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #fff0f4, #ffe0e9, #ffffff);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        header {
+            width: 100%;
+            padding: 20px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            color: #e63968;
+            font-size: 28px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .back-home {
+            color: #e63968;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-container {
+            width: 90%;
+            max-width: 450px;
+            margin: 35px auto;
+            padding: 35px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        .login-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffe0e9;
+            color: #e63968;
+            border-radius: 50%;
+            font-size: 32px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #e63968;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 28px;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #ddd;
+            border-radius: 9px;
+            outline: none;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #e63968;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 75px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: #e63968;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .forgot-password {
+            display: block;
+            text-align: right;
+            margin-top: 10px;
+            color: #e63968;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 14px;
+            background: #e63968;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .login-button:hover {
+            background: #c92350;
+            transform: translateY(-1px);
+        }
+
+        .login-button:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-message {
+            display: none;
+            margin-bottom: 18px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .login-message.error {
+            display: block;
+            color: #a71930;
+            background: #ffe8ec;
+        }
+
+        .login-message.success {
+            display: block;
+            color: #176c39;
+            background: #e5f8ec;
+        }
+
+        .login-message.info {
+            display: block;
+            color: #8a5a00;
+            background: #fff4d6;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 25px 0;
+            color: #999;
+            font-size: 13px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            height: 1px;
+            background: #eee;
+            flex: 1;
+        }
+
+        .register-text {
+            text-align: center;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .register-text a {
+            color: #e63968;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 15px;
+            color: #777;
+            font-size: 13px;
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 18px 5%;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            .login-container {
+                padding: 25px 20px;
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="index.html" class="logo">LoveBond ❤️</a>
+        <a href="index.html" class="back-home">← Home</a>
+    </header>
+
+    <main class="login-container">
+
+        <div class="login-icon">💖</div>
+
+        <h1>Welcome Back!</h1>
+
+        <p class="subtitle">
+            Log in to your LoveBond account and continue your journey.
+        </p>
+
+        <div
+            id="loginMessage"
+            class="login-message"
+            role="status"
+            aria-live="polite">
+        </div>
+
+        <form id="loginForm">
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    autocomplete="email"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+
+                <div class="password-wrapper">
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required>
+
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        id="togglePassword">
+                        Show
+                    </button>
+                </div>
+
+                <a href="#" class="forgot-password" id="forgotPassword">
+                    Forgot password?
+                </a>
+            </div>
+
+            <button
+                type="submit"
+                class="login-button"
+                id="loginButton">
+                Log In ❤️
+            </button>
+
+        </form>
+
+        <div class="divider">OR</div>
+
+        <p class="register-text">
+            Don't have an account?
+            <a href="register.html">Create an account</a>
+        </p>
+
+    </main>
+
+    <footer>
+        &copy; 2026 LoveBond. Made with ❤️ for meaningful connections.
+    </footer>
+
+    <script type="module" src="script.js"></script>
+    <script type="module" src="login.js"></script>
+
+</body>
+
+</html>

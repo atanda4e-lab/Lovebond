@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="LoveBond helps you discover meaningful connections, meet new people, share messages, and create beautiful memories."
+    >
+
+    <meta name="theme-color" content="#612582">
+
+    <meta name="author" content="LoveBond">
+
+    <title>LoveBond | Discover Meaningful Connections</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="media/image.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet"
+    >
+</head>
+
+<body>
+
+    <!-- ======================================
+         HEADER
+    ======================================= -->
+
+    <header class="site-header">
+
+        <div class="container nav-container">
+
+            <a href="index.html" class="logo" aria-label="LoveBond homepage">
+                Love<span>Bond</span> ❤️
+            </a>
+
+            <nav class="main-nav" aria-label="Main navigation">
+
+                <a href="index.html" aria-current="page">
+                    Home
+                </a>
+
+                <a href="#features">
+                    Features
+                </a>
+
+                <a href="#about">
+                    About
+                </a>
+
+                <a href="#how-it-works">
+                    How It Works
+                </a>
+
+            </nav>
+
+            <div class="nav-buttons">
+
+                <a
+                    href="login.html"
+                    class="btn btn-outline login-link"
+                >
+                    Log In
+                </a>
+
+                <a
+                    href="register.html"
+                    class="btn btn-primary join-link"
+                >
+                    Join LoveBond
+                </a>
+
+                <a
+                    href="profile.html"
+                    class="btn btn-outline profile-link"
+                    style="display: none;"
+                >
+                    My Profile
+                </a>
+
+                <button
+                    type="button"
+                    class="btn logout-button"
+                    onclick="logoutUser()"
+                    style="display: none;"
+                >
+                    Log Out
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ======================================
+         MAIN CONTENT
+    ======================================= -->
+
+    <main>
+
+        <!-- HERO SECTION -->
+
+        <section class="hero">
+
+            <div class="hero-overlay" aria-hidden="true"></div>
+
+            <div class="container hero-content">
+
+                <span class="hero-label">
+                    ✨ YOUR NEXT CHAPTER STARTS HERE
+                </span>
+
+                <h1>
+                    Real People.<br>
+                    <span>Meaningful Connections.</span>
+                </h1>
+
+                <p>
+                    Meet new people, discover shared interests, and start
+                    conversations that could become something special.
+                    Your next beautiful connection might be one click away.
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a
+                        href="register.html"
+                        class="btn btn-primary join-link"
+                    >
+                        Create Your Account ❤️
+                    </a>
+
+                    <a
+                        href="discover.html"
+                        class="btn btn-outline"
+                    >
+                        Discover People →
+                    </a>
+
+                </div>
+
+                <div class="hero-love-note">
+                    💜 A place to meet, connect, and share meaningful moments.
+                </div>
+
+                <div class="hero-highlights">
+
+                    <div class="hero-highlight">
+                        <span aria-hidden="true">💗</span>
+                        <span>Discover People</span>
+                    </div>
+
+                    <div class="hero-highlight">
+                        <span aria-hidden="true">💌</span>
+                        <span>Start Conversations</span>
+                    </div>
+
+                    <div class="hero-highlight">
+                        <span aria-hidden="true">✨</span>
+                        <span>Create Memories</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ======================================
+             ABOUT SECTION
+        ======================================= -->
+
+        <section class="about-section" id="about">
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <span class="section-label">
+                        WELCOME TO LOVEBOND
+                    </span>
+
+                    <h2>
+                        Every Great Connection
+                        <span>Starts Somewhere</span>
+                    </h2>
+
+                    <p>
+                        LoveBond gives you a place to discover people,
+                        express yourself, enjoy conversations, and create
+                        moments worth remembering.
+                    </p>
+
+                </div>
+
+                <div class="about-grid">
+
+                    <article class="about-card">
+
+                        <div class="about-icon" aria-hidden="true">
+                            💗
+                        </div>
+
+                        <h3>Meaningful Connections</h3>
+
+                        <p>
+                            Explore member profiles and find people
+                            whose interests and personalities appeal to you.
+                        </p>
+
+                    </article>
+
+                    <article class="about-card">
+
+                        <div class="about-icon" aria-hidden="true">
+                            💌
+                        </div>
+
+                        <h3>Conversations That Matter</h3>
+
+                        <p>
+                            Start conversations, exchange messages,
+                            and get to know other members.
+                        </p>
+
+                    </article>
+
+                    <article class="about-card">
+
+                        <div class="about-icon" aria-hidden="true">
+                            📸
+                        </div>
+
+                        <h3>Memories Worth Keeping</h3>
+
+                        <p>
+                            Celebrate special occasions and make room
+                            for moments that matter to you.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ======================================
+             FEATURES SECTION
+        ======================================= -->
+
+        <section class="features-section" id="features">
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <span class="section-label">
+                        EXPLORE LOVEBOND
+                    </span>
+
+                    <h2>
+                        Everything You Need to
+                        <span>Connect</span>
+                    </h2>
+
+                    <p>
+                        Explore the features that help you meet people,
+                        communicate, and enjoy your LoveBond experience.
+                    </p>
+
+                </div>
+
+                <div class="features-grid">
+
+                    <!-- DISCOVER -->
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon" aria-hidden="true">
+                            💑
+                        </div>
+
+                        <h3>Discover People</h3>
+
+                        <p>
+                            Explore member profiles and find people
+                            you would like to know better.
+                        </p>
+
+                        <a href="discover.html" class="feature-link">
+                            Explore Profiles →
+                        </a>
+
+                    </article>
+
+
+                    <!-- MATCHES -->
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon" aria-hidden="true">
+                            💖
+                        </div>
+
+                        <h3>People Who Like You</h3>
+
+                        <p>
+                            Check who has liked your profile and discover
+                            opportunities to connect.
+                        </p>
+
+                        <a href="matches.html" class="feature-link">
+                            View Likes →
+                        </a>
+
+                    </article>
+
+
+                    <!-- MESSAGES -->
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon" aria-hidden="true">
+                            💌
+                        </div>
+
+                        <h3>Private Messages</h3>
+
+                        <p>
+                            Start conversations and exchange messages
+                            with people you connect with.
+                        </p>
+
+                        <a href="messages.html" class="feature-link">
+                            Open Messages →
+                        </a>
+
+                    </article>
+
+
+                    <!-- MEMORIES -->
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon" aria-hidden="true">
+                            📸
+                        </div>
+
+                        <h3>Our Memories</h3>
+
+                        <p>
+                            Explore a space for celebrating special
+                            occasions and meaningful moments.
+                        </p>
+
+                        <a href="memories.html" class="feature-link">
+                            Explore Memories →
+                        </a>
+
+                    </article>
+
+
+                    <!-- LETTERS -->
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon" aria-hidden="true">
+                            💝
+                        </div>
+
+                        <h3>Love Letters</h3>
+
+                        <p>
+                            Express your feelings through thoughtful
+                            letters and heartfelt messages.
+                        </p>
+
+                        <a href="letters.html" class="feature-link">
+                            Explore Letters →
+                        </a>
+
+                    </article>
+
+
+                    <!-- CHALLENGES -->
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon" aria-hidden="true">
+                            🎯
+                        </div>
+
+                        <h3>Couple Challenges</h3>
+
+                        <p>
+                            Discover fun activities and conversation
+                            ideas designed to bring people closer.
+                        </p>
+
+                        <a href="challenges.html" class="feature-link">
+                            Explore Challenges →
+                        </a>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ======================================
+             HOW IT WORKS
+        ======================================= -->
+
+        <section class="how-it-works" id="how-it-works">
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <span class="section-label">
+                        SIMPLE AND EASY
+                    </span>
+
+                    <h2>
+                        Start Connecting in
+                        <span>Three Steps</span>
+                    </h2>
+
+                    <p>
+                        Getting started with LoveBond is simple.
+                    </p>
+
+                </div>
+
+                <div class="steps-grid">
+
+                    <article class="step-card">
+
+                        <div class="step-number">
+                            01
+                        </div>
+
+                        <h3>Create Your Account</h3>
+
+                        <p>
+                            Register and set up your profile
+                            so other members can get to know you.
+                        </p>
+
+                    </article>
+
+                    <article class="step-card">
+
+                        <div class="step-number">
+                            02
+                        </div>
+
+                        <h3>Discover People</h3>
+
+                        <p>
+                            Browse profiles, explore interests,
+                            and find people you would like to meet.
+                        </p>
+
+                    </article>
+
+                    <article class="step-card">
+
+                        <div class="step-number">
+                            03
+                        </div>
+
+                        <h3>Start a Conversation</h3>
+
+                        <p>
+                            Reach out, exchange messages, and
+                            see where a meaningful connection leads.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ======================================
+             LOVE CTA
+        ======================================= -->
+
+        <section class="love-cta">
+
+            <div class="container">
+
+                <div class="cta-content">
+
+                    <span class="section-label">
+                        EVERY CONNECTION BEGINS SOMEWHERE
+                    </span>
+
+                    <h2>
+                        Someone New Could
+                        <span>Brighten Your Day</span> ❤️
+                    </h2>
+
+                    <p>
+                        A thoughtful message, a shared interest,
+                        or a simple hello can be the beginning
+                        of something memorable.
+                    </p>
+
+                    <a
+                        href="discover.html"
+                        class="btn btn-primary"
+                    >
+                        Meet New People 💕
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ======================================
+             FINAL CTA
+        ======================================= -->
+
+        <section class="final-cta">
+
+            <div class="container">
+
+                <h2>
+                    Your Next Connection Starts Here.
+                </h2>
+
+                <p>
+                    Create your account and take the first step
+                    toward meeting new people on LoveBond.
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a
+                        href="register.html"
+                        class="btn btn-primary join-link"
+                    >
+                        Join LoveBond ❤️
+                    </a>
+
+                    <a
+                        href="login.html"
+                        class="btn btn-outline login-link"
+                    >
+                        Already a Member? Log In
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ======================================
+         FOOTER
+    ======================================= -->
+
+    <footer class="site-footer">
+
+        <div class="container footer-content">
+
+            <a href="index.html" class="logo">
+                Love<span>Bond</span> ❤️
+            </a>
+
+            <p>
+                Two hearts. One beautiful journey.
+            </p>
+
+            <div class="footer-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="discover.html">
+                    Discover
+                </a>
+
+                <a href="matches.html">
+                    People Who Like You
+                </a>
+
+                <a href="messages.html">
+                    Messages
+                </a>
+
+                <a href="memories.html">
+                    Memories
+                </a>
+
+                <a href="letters.html">
+                    Letters
+                </a>
+
+                <a
+                    href="profile.html"
+                    class="profile-link"
+                    style="display: none;"
+                >
+                    Profile
+                </a>
+
+                <a
+                    href="register.html"
+                    class="join-link"
+                >
+                    Join Us
+                </a>
+
+                <a
+                    href="login.html"
+                    class="login-link"
+                >
+                    Log In
+                </a>
+
+                <button
+                    type="button"
+                    class="logout-button"
+                    onclick="logoutUser()"
+                    style="display: none;"
+                >
+                    Log Out
+                </button>
+
+            </div>
+
+            <p class="copyright">
+                &copy; 2026 LoveBond. Made with ❤️.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- ======================================
+         JAVASCRIPT
+    ======================================= -->
+
+    <script type="module" src="script.js"></script>
+
+</body>
+
+</html>

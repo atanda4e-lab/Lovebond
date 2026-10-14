@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>People Who Like You | LoveBond</title>
+
+    <style>
+        :root {
+            --background: #100b18;
+            --card: #1d1429;
+            --card-light: #291b38;
+            --primary: #ff4f91;
+            --secondary: #b88aff;
+            --text: #ffffff;
+            --muted: #b9afc7;
+            --border: rgba(255, 255, 255, 0.09);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 18px 6%;
+            background: #171020;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            color: var(--primary);
+            font-size: 25px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a,
+        #logoutButton {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 14px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        main {
+            max-width: 1150px;
+            margin: 35px auto;
+            padding: 0 20px 40px;
+        }
+
+        .page-heading {
+            margin-bottom: 28px;
+        }
+
+        .page-heading h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .page-heading p {
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .search-box {
+            width: 100%;
+            max-width: 420px;
+            padding: 14px 16px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            outline: none;
+            background: var(--card);
+            color: white;
+            font-size: 14px;
+        }
+
+        .search-box:focus {
+            border-color: var(--primary);
+        }
+
+        .status-message {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 24px;
+            border-radius: 14px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .status-message.error {
+            color: #ff9aa9;
+        }
+
+        .people-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 22px;
+        }
+
+        .person-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            overflow: hidden;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .person-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 79, 145, 0.5);
+        }
+
+        .person-photo {
+            height: 230px;
+            background: var(--card-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: var(--secondary);
+            font-size: 55px;
+        }
+
+        .person-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .person-info {
+            padding: 18px;
+        }
+
+        .person-info h3 {
+            font-size: 19px;
+            margin-bottom: 8px;
+            overflow-wrap: anywhere;
+        }
+
+        .person-info p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .person-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 11px 14px;
+            border-radius: 9px;
+            border: none;
+            text-decoration: none;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .button-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .button-secondary {
+            background: var(--card-light);
+            color: white;
+            border: 1px solid var(--border);
+        }
+
+        @media (max-width: 700px) {
+            nav {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .nav-links {
+                gap: 14px;
+            }
+
+            main {
+                margin-top: 25px;
+            }
+
+            .page-heading h1 {
+                font-size: 27px;
+            }
+
+            .people-grid {
+                grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+                gap: 13px;
+            }
+
+            .person-photo {
+                height: 175px;
+            }
+
+            .person-info {
+                padding: 13px;
+            }
+
+            .person-actions {
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a class="logo" href="index.html">LoveBond 💕</a>
+
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="discover.html">Discover</a>
+            <a href="matches.html" class="active">Likes</a>
+            <a href="messages.html">Messages</a>
+            <a href="profile.html">Profile</a>
+            <button id="logoutButton" type="button">Logout</button>
+        </div>
+    </nav>
+
+    <main>
+        <header class="page-heading">
+            <h1>People Who Like You ❤️</h1>
+            <p>See who's interested in you and get to know them better.</p>
+        </header>
+
+        <input
+            type="search"
+            id="searchInput"
+            class="search-box"
+            placeholder="Search by name..."
+            aria-label="Search people who like you"
+        >
+
+        <div id="statusMessage" class="status-message">
+            Loading people who like you...
+        </div>
+
+        <section id="peopleGrid" class="people-grid" hidden></section>
+    </main>
+
+    <script type="module" src="matches.js"></script>
+</body>
+</html>
