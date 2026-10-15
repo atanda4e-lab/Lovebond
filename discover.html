@@ -10,6 +10,8 @@
         content="Discover people, explore interests, and find meaningful connections on LoveBond."
     >
 
+    <meta name="theme-color" content="#8b3dff">
+
     <title>Discover | LoveBond</title>
 
     <link rel="stylesheet" href="style.css">
@@ -38,6 +40,12 @@
 
         a {
             text-decoration: none;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
         }
 
         .lb-navbar {
@@ -134,21 +142,50 @@
         }
 
         .lb-welcome {
-            margin-bottom: 28px;
-            padding: 20px 22px;
+            margin-bottom: 24px;
+            padding: 22px;
             border: 1px solid var(--love-border);
             border-radius: 16px;
             background: var(--love-white);
         }
 
         .lb-welcome h2 {
-            margin: 0 0 8px;
+            margin: 0 0 10px;
             font-size: 20px;
         }
 
         .lb-welcome p {
             margin: 0;
             color: var(--love-muted);
+            line-height: 1.8;
+        }
+
+        .lb-profile-notice {
+            border-color: #ffb6d0;
+            background: linear-gradient(120deg, #fff0f6, #f8f0ff);
+        }
+
+        .lb-notice-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            margin-top: 18px;
+            padding: 12px 18px;
+            border-radius: 11px;
+            background: linear-gradient(
+                120deg,
+                var(--love-primary),
+                var(--love-secondary)
+            );
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            transition: transform 0.2s ease;
+        }
+
+        .lb-notice-button:hover {
+            transform: translateY(-2px);
         }
 
         .lb-controls {
@@ -175,7 +212,6 @@
             outline: none;
             background: var(--love-white);
             color: var(--love-dark);
-            font: inherit;
             font-size: 14px;
         }
 
@@ -300,7 +336,6 @@
             border: 0;
             border-radius: 11px;
             cursor: pointer;
-            font: inherit;
             font-size: 13px;
             font-weight: 700;
             text-align: center;
@@ -405,115 +440,11 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .profile-card {
+            .profile-card,
+            .lb-notice-button {
                 transition: none;
             }
         }
-        ```css
-/* =====================================
-   MAIN NAVIGATION
-===================================== */
-
-.topbar {
-    gap: 20px;
-}
-
-.main-nav {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-}
-
-.nav-link {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-
-    padding: 11px 13px;
-
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 600;
-
-    border: 1px solid transparent;
-    border-radius: 12px;
-
-    transition: 0.2s ease;
-}
-
-.nav-link:hover {
-    background: var(--panel-light);
-    color: var(--text);
-}
-
-.nav-link.active {
-    background: var(--primary-soft);
-    border-color: #66345e;
-    color: #ff9fc3;
-}
-
-.logout-button {
-    flex-shrink: 0;
-
-    padding: 11px 15px;
-
-    background: #47223e;
-    border: 1px solid #783653;
-    border-radius: 12px;
-
-    color: #ff9fc3;
-    font-size: 12px;
-    font-weight: 700;
-
-    transition: 0.2s ease;
-}
-
-.logout-button:hover {
-    background: #67304c;
-    color: #ffffff;
-}
-
-@media (max-width: 1000px) {
-    .topbar {
-        height: auto;
-        min-height: 76px;
-        padding: 12px 3%;
-        flex-wrap: wrap;
-    }
-
-    .main-nav {
-        order: 3;
-        width: 100%;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-}
-
-@media (max-width: 600px) {
-    .topbar {
-        gap: 10px;
-    }
-
-    .brand {
-        font-size: 19px;
-    }
-
-    .main-nav {
-        gap: 4px;
-    }
-
-    .nav-link {
-        padding: 9px 10px;
-        font-size: 11px;
-    }
-
-    .logout-button {
-        padding: 9px 11px;
-        font-size: 11px;
-    }
-}
     </style>
 </head>
 
@@ -534,11 +465,12 @@
                 <a href="profile.html" class="profile-link">My Profile</a>
                 <a href="login.html" class="login-link">Login</a>
                 <a href="register.html" class="join-link">Join Now</a>
-                <a href="letters.html">letter</a>
+                <a href="letters.html">Letters</a>
 
                 <button
                     type="button"
                     class="lb-logout logout-button"
+                    onclick="logoutUser()"
                     hidden
                 >
                     Logout
@@ -547,7 +479,6 @@
 
         </div>
     </header>
-
 
     <main class="lb-main">
 
@@ -562,7 +493,6 @@
             </p>
         </section>
 
-
         <section
             id="welcomePanel"
             class="lb-welcome"
@@ -572,9 +502,35 @@
                 Welcome back, <span class="user-name">Member</span>!
             </h2>
 
-            <p>Explore profiles and discover people you connect with.</p>
+            <p>
+                Explore profiles and discover people you connect with.
+            </p>
         </section>
 
+        <!-- Incomplete profile notice -->
+        <section
+            id="profileCompletionNotice"
+            class="lb-welcome lb-profile-notice"
+            aria-labelledby="profileNoticeHeading"
+            hidden
+        >
+            <h2 id="profileNoticeHeading">
+                Complete your profile ❤️
+            </h2>
+
+            <p>
+                Your account is ready! Add your age and other profile
+                details to help eligible members discover you.
+                You can continue browsing while your profile is incomplete.
+            </p>
+
+            <a
+                href="profile.html"
+                class="lb-notice-button"
+            >
+                Complete My Profile ❤️
+            </a>
+        </section>
 
         <section aria-label="Search and filter members">
 
@@ -604,7 +560,6 @@
 
         </section>
 
-
         <section aria-labelledby="profilesHeading">
 
             <div class="lb-section-heading">
@@ -629,16 +584,15 @@
 
     </main>
 
-
     <footer class="lb-footer">
         <p>
             &copy; 2026 LoveBond. Connecting people, one connection at a time. ❤️
         </p>
     </footer>
 
-
     <script type="module" src="script.js"></script>
     <script type="module" src="discover.js"></script>
 
 </body>
+
 </html>

@@ -1,3 +1,7 @@
+// ========================================
+// LOVEBOND - DISCOVER SYSTEM
+// ========================================
+
 import { auth, db } from "./firebase.js";
 
 import {
@@ -26,6 +30,10 @@ const searchInput = document.getElementById("searchInput");
 const filterSelect = document.getElementById("filterSelect");
 const welcomePanel = document.getElementById("welcomePanel");
 const welcomeName = document.querySelector(".user-name");
+
+const profileCompletionNotice = document.getElementById(
+    "profileCompletionNotice"
+);
 
 
 // ========================================
@@ -114,6 +122,16 @@ function isValidAdultProfile(profile) {
 }
 
 
+function isCompleteOwnProfile(profile) {
+    return (
+        isValidAdultProfile(profile) &&
+        typeof profile.location === "string" &&
+        typeof profile.bio === "string" &&
+        typeof profile.interests === "string"
+    );
+}
+
+
 function getTimestamp(value) {
     if (value && typeof value.seconds === "number") {
         return value.seconds;
@@ -138,6 +156,82 @@ function isSafeImageURL(value) {
         return url.protocol === "https:";
     } catch {
         return false;
+    }
+}
+
+
+// ========================================
+// CHECK PROFILE COMPLETION
+// ========================================
+
+async function checkMyProfile() {
+    if (!currentUser || !profileCompletionNotice) {
+        return;
+    }
+
+    try {
+        const privateProfileReference = doc(
+            db,
+            "users",
+            currentUser.uid
+        );
+
+        const publicProfileReference = doc(
+            db,
+            "publicProfiles",
+            currentUser.uid
+        );
+
+        const [
+            privateProfileSnapshot,
+            publicProfileSnapshot
+        ] = await Promise.all([
+            getDoc(privateProfileReference),
+            getDoc(publicProfileReference)
+        ]);
+
+        const privateProfile = privateProfileSnapshot.exists()
+            ? privateProfileSnapshot.data()
+            : {};
+
+        const publicProfile = publicProfileSnapshot.exists()
+            ? publicProfileSnapshot.data()
+            : {};
+
+        // Prefer the private profile when checking the user's
+        // saved information.
+        const myProfile = {
+            ...publicProfile,
+            ...privateProfile
+        };
+
+        const profileComplete = isCompleteOwnProfile(myProfile);
+
+        // A completed profile must also be published to
+        // publicProfiles before other members can discover it.
+        const profilePublished =
+            publicProfileSnapshot.exists() &&
+            isValidAdultProfile(publicProfile);
+
+        profileCompletionNotice.hidden =
+            profileComplete && profilePublished;
+
+        if (!profileComplete || !profilePublished) {
+            console.log(
+                "LoveBond: Your profile needs completion or publication."
+            );
+        }
+
+    } catch (error) {
+        console.error(
+            "LoveBond profile completion check failed:",
+            error.code,
+            error.message
+        );
+
+        // If the profile cannot be checked, encourage the
+        // member to visit the profile page.
+        profileCompletionNotice.hidden = false;
     }
 }
 
@@ -203,6 +297,7 @@ async function loadProfiles() {
                 return;
             }
 
+            // Only show eligible adult profiles.
             if (!isValidAdultProfile(profileData)) {
                 return;
             }
@@ -351,9 +446,7 @@ function renderProfiles() {
 
 function createProfileCard(profile) {
     const uid = escapeHTML(profile.uid);
-
     const name = escapeHTML(profile.fullName);
-
     const age = escapeHTML(profile.age);
 
     const location = escapeHTML(
@@ -503,7 +596,6 @@ async function toggleLike(targetUserId, button) {
     }
 
     likeInProgress.add(targetUserId);
-
     button.disabled = true;
 
     try {
@@ -526,12 +618,7 @@ async function toggleLike(targetUserId, button) {
                 "LoveBond: Like removed successfully."
             );
 
-            // A match should be removed by a trusted backend
-            // if either user withdraws their like.
-            // The client does not delete shared match records.
-
         } else {
-            // Check whether the target profile still exists.
             const targetProfileReference = doc(
                 db,
                 "publicProfiles",
@@ -542,7 +629,10 @@ async function toggleLike(targetUserId, button) {
                 targetProfileReference
             );
 
-            if (!targetProfileSnapshot.exists()) {
+            if (
+                !targetProfileSnapshot.exists() ||
+                !isValidAdultProfile(targetProfileSnapshot.data())
+            ) {
                 alert(
                     "This profile is no longer available. Refresh Discover and try again."
                 );
@@ -560,7 +650,6 @@ async function toggleLike(targetUserId, button) {
 
             likedUsers.add(targetUserId);
 
-            // Check whether the other member liked the current user.
             const reverseLikeId =
                 `${targetUserId}_${currentUser.uid}`;
 
@@ -582,9 +671,6 @@ async function toggleLike(targetUserId, button) {
                 console.log(
                     "LoveBond: Mutual like detected."
                 );
-
-                // Match creation should be validated by a trusted
-                // backend to ensure both likes really exist.
             } else {
                 alert("Like sent! ❤️");
             }
@@ -601,7 +687,7 @@ async function toggleLike(targetUserId, button) {
 
         if (error.code === "permission-denied") {
             alert(
-                "Firebase denied this action. Check the Likes Firestore rules and make sure they use likerId and likedId."
+                "Firebase denied this action. Check the Likes Firestore rules."
             );
         } else {
             alert(
@@ -612,8 +698,6 @@ async function toggleLike(targetUserId, button) {
     } finally {
         likeInProgress.delete(targetUserId);
 
-        // The original button might have been removed when
-        // the profile cards were rendered again.
         if (button.isConnected) {
             button.disabled = false;
         }
@@ -660,6 +744,10 @@ onAuthStateChanged(auth, async (user) => {
             welcomePanel.hidden = true;
         }
 
+        if (profileCompletionNotice) {
+            profileCompletionNotice.hidden = true;
+        }
+
         showMessage(
             "Please log in to discover members."
         );
@@ -676,5 +764,12 @@ onAuthStateChanged(auth, async (user) => {
             user.displayName || "Member";
     }
 
+    // Check the current user's profile separately from
+    // loading other members.
+    await checkMyProfile();
+
+    // Incomplete users can still browse eligible members.
     await loadProfiles();
-})
+});
+
+console.log("LoveBond Discover system ready ❤️");
